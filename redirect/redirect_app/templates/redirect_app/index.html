@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %} Укращатель ссылок {% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="roww">
+        <h1 align="center">Сокращатель ссылок</h1>
+    </div>
+    <div class="row">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="alert alert-{{message.tags}}" role="alert">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{ link_form.as_p }}
+            <button class="btn btn-primary" type="submit" name="short_link_create">Сократить ссылку</button>
+        </form>
+    </div>
+    <div class="row">
+        <h1 align="center">Ваши прошлые ссылки</h1>
+        {% if urls_user %}
+        <ul class="list-group">
+            {% for urls in urls_user %}
+            <li class="list-group-item"><a href="{{urls.short_link}}" style="margin-right: 10px;" id="copy_text">
+                {{request.get_host }}\{{urls.short_link}}</a>
+                <button class="btn" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#{{urls.short_link}}" aria-expanded="false" aria-controls="{{urls.short_link}}">
+                    Посмотреть исходную ссылку
+                </button>
+                <div class="collapse" id="{{urls.short_link}}">
+                    <div class="card card-body">
+                        <a href="{{urls.long_link}}">{{urls.long_link}}</a>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <h3 align="center">Вы ещё не сокращали ссылки</h3>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
