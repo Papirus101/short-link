@@ -13,6 +13,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'clear_db_every_week': {
         'task': 'redirect_app.tasks.clear_db',
-        'schedule': crontab(minute=0, hour=0, day_of_week='monday')
+        # 'schedule': crontab(minute=0, hour=0, day_of_week='monday')
+        'schedule': crontab(minute='*/1')
     }
 }
