@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from environs import Env
+import logging
 
 env = Env()
 env.read_env('.env')
@@ -8,6 +9,8 @@ env.read_env('.env')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env('DJANGO_SECRET_KEY')
+
+logging.basicConfig(filename="logging.log", level=logging.DEBUG)
 
 DEBUG = True
 
